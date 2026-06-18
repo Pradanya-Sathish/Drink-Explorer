@@ -364,6 +364,18 @@
       flex-wrap: wrap;
       gap: 6px;
     }
+    .modal-link {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 8px 18px;
+      background: #b06a3a;
+      color: #fff;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+
+    .modal-link:hover { background: #944f27; }
   </style>
 </head>
 <body>
@@ -490,11 +502,13 @@
   <div class="modal-box" onclick="event.stopPropagation()">
     <button class="modal-close" onclick="closeModal()">✕</button>
     <img class="modal-img" id="modal-img" src="" alt="" />
+    <p style="font-size:0.7rem; color:#aaa; text-align:center; padding: 4px 0 0; margin: 0;">Images are for illustration only and may not show the exact drink</p>
     <div class="modal-body">
       <div class="modal-store" id="modal-store"></div>
       <div class="modal-name" id="modal-name"></div>
       <div class="modal-grid" id="modal-grid"></div>
       <div class="modal-tags" id="modal-tags"></div>
+      <div id="modal-link"></div>
     </div>
   </div>
 </div>
@@ -527,7 +541,8 @@ fetch(SHEET_URL)
         milk: get('milk'),
         caffeinated: get('caffeinated') === true || get('caffeinated') === 'TRUE',
         tags: get('tags') ? get('tags').split(',').map(t => t.trim()) : [],
-        image: get('image') || ''
+        image: get('image') || '',
+        link: get('link') || ''
       };
     });
 
@@ -647,6 +662,9 @@ fetch(SHEET_URL)
     document.getElementById('modal-tags').innerHTML = d.tags.map(t =>
       `<span class="tag">${t}</span>`
     ).join('');
+    document.getElementById('modal-link').innerHTML = d.link
+      ? `<a href="${d.link}" target="_blank" rel="noopener" class="modal-link">View on official website ↗</a>`
+      : '';
     document.getElementById('modal-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
